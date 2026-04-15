@@ -632,7 +632,14 @@ jobs:
           command: |
             curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ env.token }}" -F "file=@./SignOutput/${{ env.filename }}.exe" ${{ env.apiServer }}/api/save_custom_client
             curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ env.token }}" -F "file=@./SignOutput/${{ env.filename }}.msi" ${{ env.apiServer }}/api/save_custom_client || true
-
+name: Upload client artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: SoVa-Windows-Client
+    path: |
+      ./SignOutput/*.exe
+      ./SignOutput/*.msi
+    if-no-files-found: error
   cleanup:
     needs: [build-for-windows-flutter]
     runs-on: ubuntu-latest
