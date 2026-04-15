@@ -1,5 +1,5 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 1234567..abcdefg 100644
+index 0000000..1111111
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -50,6 +50,8 @@ sciter = { git = "https://github.com/rustdesk/sciter-rs" }
@@ -12,7 +12,7 @@ index 1234567..abcdefg 100644
  default = []
 +metrics = []
 diff --git a/src/main.rs b/src/main.rs
-index 1234567..abcdefg 100644
+index 0000000..2222222
 --- a/src/main.rs
 +++ b/src/main.rs
 @@ -10,6 +10,9 @@ mod ipc;
@@ -38,7 +38,7 @@ index 1234567..abcdefg 100644
  fn start() {
 diff --git a/src/metrics.rs b/src/metrics.rs
 new file mode 100644
-index 0000000..1234567
+index 0000000..3333333
 --- /dev/null
 +++ b/src/metrics.rs
 @@ -0,0 +1,68 @@
