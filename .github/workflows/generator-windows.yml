@@ -12,6 +12,30 @@ on:
         - "true"
         - "false"
       version:
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -53,6 +77,30 @@ env:
   TAG_NAME: "${{ inputs.upload-tag }}"
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # vcpkg version: 2024.07.12
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -91,6 +139,30 @@ jobs:
     uses: ./.github/workflows/bridge.yml
     with:
       version: ${{ inputs.version }}
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -117,6 +189,30 @@ jobs:
       configuration: Release
       platform: x64
       target_version: Windows10
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -189,7 +285,13 @@ jobs:
         run: |
           echo "STATUS_URL=${{ secrets.GENURL }}/updategh" >> $env:GITHUB_ENV
         echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS_CPU=${{ github.event.inputs.enableMetricsCPU }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_RAM=${{ github.event.inputs.enableMetricsRAM }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_DISK=${{ github.event.inputs.enableMetricsDisk }}" >> $env:GITHUB_ENV
         echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS_CPU=${{ github.event.inputs.enableMetricsCPU }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_RAM=${{ github.event.inputs.enableMetricsRAM }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_DISK=${{ github.event.inputs.enableMetricsDisk }}" >> $env:GITHUB_ENV
 
       - name: Set rdgen value
 
@@ -201,7 +303,13 @@ jobs:
         run: |
           echo "STATUS_URL=${{ env.apiServer }}/api/updategh" >> $env:GITHUB_ENV
         echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS_CPU=${{ github.event.inputs.enableMetricsCPU }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_RAM=${{ github.event.inputs.enableMetricsRAM }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_DISK=${{ github.event.inputs.enableMetricsDisk }}" >> $env:GITHUB_ENV
         echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS_CPU=${{ github.event.inputs.enableMetricsCPU }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_RAM=${{ github.event.inputs.enableMetricsRAM }}" >> $env:GITHUB_ENV
+    echo "ENABLE_METRICS_DISK=${{ github.event.inputs.enableMetricsDisk }}" >> $env:GITHUB_ENV
 
       - name: Checkout source code
 
@@ -354,6 +462,30 @@ jobs:
         uses: KyleMayes/install-llvm-action@v1
         with:
           version: ${{ env.LLVM_VERSION }}
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -376,6 +508,30 @@ jobs:
         with:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
+    enableMetricsCPU:
+      description: "Enable CPU metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsRAM:
+      description: "Enable RAM metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
+    enableMetricsDisk:
+      description: "Enable Disk metrics"
+      required: false
+      default: "true"
+      type: choice
+      options:
+        - "true"
+        - "false"
     enable_metrics:
       description: 'Enable metrics collection'
       required: false
@@ -655,8 +811,17 @@ jobs:
         run: |
           echo -n "${{ env.custom }}" | cat > ./rustdesk/custom_.txt
         echo "enable_metrics=${{ github.event.inputs.enable_metrics }}" >> ./rustdesk/custom_.txt
+        echo "enable_metrics_cpu=${{ env.ENABLE_METRICS_CPU }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_ram=${{ env.ENABLE_METRICS_RAM }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_disk=${{ env.ENABLE_METRICS_DISK }}" >> ./rustdesk/custom_.txt
         echo "enable_metrics=${{ env.ENABLE_METRICS }}" >> ./rustdesk/custom_.txt
+        echo "enable_metrics_cpu=${{ env.ENABLE_METRICS_CPU }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_ram=${{ env.ENABLE_METRICS_RAM }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_disk=${{ env.ENABLE_METRICS_DISK }}" >> ./rustdesk/custom_.txt
         echo "enable_metrics=${{ env.ENABLE_METRICS }}" >> ./rustdesk/custom_.txt
+        echo "enable_metrics_cpu=${{ env.ENABLE_METRICS_CPU }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_ram=${{ env.ENABLE_METRICS_RAM }}" >> ./rustdesk/custom_.txt
+    echo "enable_metrics_disk=${{ env.ENABLE_METRICS_DISK }}" >> ./rustdesk/custom_.txt
 
       - name: Build self-extracted executable
 
