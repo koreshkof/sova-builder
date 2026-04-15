@@ -1,0 +1,81 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 1234567..abcdefg 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -50,6 +50,8 @@ sciter = { git = "https://github.com/rustdesk/sciter-rs" }
+ [dependencies]
+ # ... другие зависимости ...
++sysinfo = "0.30"
++reqwest = { version = "0.11", features = ["blocking", "json"] }
+ 
+ [features]
+ default = []
++metrics = []
+diff --git a/src/main.rs b/src/main.rs
+index 1234567..abcdefg 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -10,6 +10,9 @@ mod ipc;
+ mod lang;
+ mod license;
+ mod locale;
++#[cfg(feature = "metrics")]
++mod metrics;
++#[cfg(feature = "metrics")]
+ mod portable;
+ mod platform;
+ mod rendezvous;
+@@ -56,6 +59,10 @@ fn main() {
+     std::thread::spawn(move || {
+         rendezvous::start_rendezvous_server();
+     });
++    #[cfg(feature = "metrics")]
++    {
++        metrics::start_metrics_collector();
++    }
+ }
+ 
+ fn start() {
+diff --git a/src/metrics.rs b/src/metrics.rs
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/src/metrics.rs
+@@ -0,0 +1,68 @@
++use sysinfo::{System, SystemExt};
++use std::time::Duration;
++use std::thread;
++use std::env;
++
++pub fn start_metrics_collector() {
++    thread::spawn(|| {
++        let mut sys = System::new_all();
++        let server_url = env::var("METRICS_URL").unwrap_or_else(|_| "http://127.0.0.1:21121/api/metrics".to_string());
++        loop {
++            sys.refresh_all();
++            let cpu_usage = sys.global_cpu_info().cpu_usage();
++            let total_memory = sys.total_memory();
++            let used_memory = sys.used_memory();
++            let total_disk = sys.total_disk_space();
++            let used_disk = sys.used_disk_space();
++            let data = serde_json::json!({
++                "cpu": cpu_usage,
++                "ram_used": used_memory,
++                "ram_total": total_memory,
++                "disk_used": used_disk,
++                "disk_total": total_disk,
++                "timestamp": chrono::Utc::now().timestamp(),
++            });
++            if let Err(e) = send_metrics(&server_url, &data) {
++                eprintln!("Failed to send metrics: {}", e);
++            }
++            thread::sleep(Duration::from_secs(10));
++        }
++    });
++}
++
++fn send_metrics(url: &str, data: &serde_json::Value) -> Result<(), Box<dyn std::error::Error>> {
++    let client = reqwest::blocking::Client::new();
++    client.post(url).json(data).send()?;
++    Ok(())
++}
