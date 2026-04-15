@@ -587,6 +587,13 @@ jobs:
             cp ./SignOutput/unsigned_files.zip ./SignOutput/signed_files.zip
           fi
 
+      - name: Upload client artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoVa-Windows-Client
+          path: ./SignOutput/*.exe
+          if-no-files-found: warn
+
       - name: unzip exe and msi
         continue-on-error: true
         shell: pwsh
