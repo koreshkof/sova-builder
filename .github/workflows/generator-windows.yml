@@ -9,6 +9,30 @@ on:
         default: ''
         type: string
       zip_url:
+      enableMetricsCPU:
+        description: 'Enable CPU metrics'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      enableMetricsRAM:
+        description: 'Enable RAM metrics'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      enableMetricsDisk:
+        description: 'Enable Disk metrics'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
         description: 'url to zip of json'
         required: true
         default: ''
@@ -625,31 +649,6 @@ jobs:
           command: |
             curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ env.token }}" -F "file=@./SignOutput/${{ env.filename }}.exe" ${{ env.apiServer }}/api/save_custom_client
             curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ env.token }}" -F "file=@./SignOutput/${{ env.filename }}.msi" ${{ env.apiServer }}/api/save_custom_client || true
-
-      enableMetricsCPU:
-        description: 'Enable CPU metrics'
-        required: false
-        default: 'true'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
-      enableMetricsRAM:
-        description: 'Enable RAM metrics'
-        required: false
-        default: 'true'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
-      enableMetricsDisk:
-        description: 'Enable Disk metrics'
-        required: false
-        default: 'true'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
 
   cleanup:
     needs: [build-for-windows-flutter]
