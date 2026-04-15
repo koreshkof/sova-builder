@@ -4,6 +4,22 @@ on:
   workflow_dispatch:
     inputs:
       version:
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
         description: 'version to buld'
         required: true
         default: ''
@@ -29,6 +45,22 @@ env:
   TAG_NAME: "${{ inputs.upload-tag }}"
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # vcpkg version: 2024.07.12
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
   VCPKG_COMMIT_ID: "120deac3062162151622ca4860575a33844ba10b"
   ARMV7_VCPKG_COMMIT_ID: "6f29f12e82a8293156836ad81cc9bf5af41fe836"
   VERSION: "${{ inputs.version }}"
@@ -51,6 +83,22 @@ jobs:
     uses: ./.github/workflows/bridge.yml
     with:
       version: ${{ inputs.version }}
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
 
   build-RustDeskTempTopMostWindow:
     needs: setup
@@ -61,6 +109,22 @@ jobs:
       configuration: Release
       platform: x64
       target_version: Windows10
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
     secrets: inherit
     strategy:
       fail-fast: false
@@ -116,11 +180,15 @@ jobs:
         if: ${{ env.rdgen == 'true' }}
         run: |
           echo "STATUS_URL=${{ secrets.GENURL }}/updategh" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
 
       - name: Set rdgen value
         if: ${{ env.rdgen == 'false' }}
         run: |
           echo "STATUS_URL=${{ env.apiServer }}/api/updategh" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
+        echo "ENABLE_METRICS=${{ github.event.inputs.enable_metrics }}" >> $env:GITHUB_ENV
 
       - name: Checkout source code
         if: ${{ env.VERSION != 'master' }}
@@ -268,12 +336,44 @@ jobs:
         uses: KyleMayes/install-llvm-action@v1
         with:
           version: ${{ env.LLVM_VERSION }}
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
 
       - name: Install flutter
         uses: subosito/flutter-action@v2.12.0 #https://github.com/subosito/flutter-action/issues/277
         with:
           channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
+    enable_metrics:
+      description: 'Enable metrics collection'
+      required: false
+      default: 'true'
+      type: choice
+      options:
+        - 'true'
+        - 'false'
 
       # https://github.com/flutter/flutter/issues/155685
       - name: Replace engine with rustdesk custom flutter engine
@@ -536,6 +636,8 @@ jobs:
         shell: bash
         run: |
           echo -n "${{ env.custom }}" | cat > ./rustdesk/custom_.txt
+        echo "enable_metrics=${{ env.ENABLE_METRICS }}" >> ./rustdesk/custom_.txt
+        echo "enable_metrics=${{ env.ENABLE_METRICS }}" >> ./rustdesk/custom_.txt
 
       - name: Build self-extracted executable
         shell: bash
